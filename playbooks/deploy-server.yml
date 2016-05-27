@@ -1,6 +1,7 @@
 - hosts: localhost
   become: yes
-  gather_facts: false
+  gather_facts: true
   roles:
     - packages/java
     - packages/tomcat7
+    - packages/mysql
