@@ -3,3 +3,4 @@
 - include: secure-mysql.yml
 - include: users.yml
 - include: databases.yml
+- include: delete-root-my-cnf.yml
