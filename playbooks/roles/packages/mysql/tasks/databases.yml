@@ -1,0 +1,8 @@
+- name: MySQL | Make sure the MySQL databases are present
+  mysql_db:
+    db={{ item }}
+    collation={{ item.collation | default('utf8_general_ci') }}
+    encoding={{ item.encoding | default('utf8') }}
+    state=present
+  with_items: mysql_databases
+
