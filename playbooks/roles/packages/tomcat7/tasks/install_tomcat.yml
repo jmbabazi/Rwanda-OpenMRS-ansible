@@ -1,29 +1,25 @@
----
 - name: add group "tomcat"
   group: name=tomcat
 
 - name: add user "tomcat"
-  user: name=tomcat group=tomcat home=/usr/share/tomcat createhome=no
+  user: name=tomcat group=tomcat home=/home/tomcat createhome=yes
   sudo: True
 
 - name: Download Tomcat
-  get_url: url= {{ tomcat_url }} dest= {{ tomcat_dest }}
+  command: chdir=/home/tomcat /usr/bin/wget {{ tomcat_url }}
 
 - name: Extract archive
-  command: chdir=/usr/share /bin/tar xvf {{ tomcat_dest }} -C /opt/ creates=/opt/apache-tomcat
-
-- name: Symlink install directory
-  file: src=/opt/apache-tomcat path=/usr/share/tomcat state=link
+  command: chdir=/home/tomcat /bin/tar xvf {{ tomcat_dest }}
 
 - name: Change ownership of Tomcat installation
-  file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
+  file: path=/home/tomcat/apache-tomcat-7.0.8 owner=tomcat group=tomcat state=directory recurse=yes
 
 - name: Configure Tomcat server
-  template: src=server.xml dest=/usr/share/tomcat/conf/
+  template: src=server.xml dest=/home/tomcat/apache-tomcat-7.0.8/conf/
   notify: restart tomcat
 
 - name: Configure Tomcat users
-  template: src=tomcat-users.xml dest=/usr/share/tomcat/conf/
+  template: src=tomcat-users.xml dest=/home/tomcat/apache-tomcat-7.0.8/conf/
   notify: restart tomcat
 
 - name: Install Tomcat init script
