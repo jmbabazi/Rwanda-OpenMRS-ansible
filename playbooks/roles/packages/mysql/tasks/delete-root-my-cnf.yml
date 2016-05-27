@@ -1,0 +1,2 @@
+- name: MYSQL | delete /root/.my.cnf
+  file: dest=/root/.my.cnf state=absent
